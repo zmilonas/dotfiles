@@ -47,6 +47,9 @@ gcja () {
   # Git Commit Jira All 
   git commit -a -m "[$(current_branch)] $1" 
 }
+ggpnv () {
+  git push -u origin $(git_current_branch) --no-verify
+}
 
 export PATH="$HOME/.npm-packages/bin:$PATH"
 export GPG_TTY=$(tty)
