@@ -32,10 +32,9 @@ dps () {
   docker ps -a --format="table {{.Names}}\t{{.ID}}\t{{.Status}}\t{{.RunningFor}}\t{{.Image}}" 
 }
 dent () {
-    # Docker ENTer (Container)
-    local FIRST_CONTAINER=$(docker ps -q | head -n1)
+    local FIRST_CONTAINER=$(docker ps --format="{{.Names}}" | head -n1)
     local CONTAINER=${1:=$FIRST_CONTAINER}
-    local CONTAINER_NAME=$(docker ps --format="{{.Names}}" -f "id=${CONTAINER}")
+    local CONTAINER_NAME=$(docker ps --format="{{.Names}}" -f "name=${CONTAINER}")
     printf "\033[1;32mRunning interactive shell for '${CONTAINER_NAME}'\033[0m \n"
     docker exec -it -e TERM=xterm-256color $CONTAINER /bin/bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
 }
