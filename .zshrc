@@ -39,6 +39,9 @@ dent () {
     printf "\033[1;32mRunning interactive shell for '${CONTAINER_NAME}'\033[0m \n"
     docker exec -it -e TERM=xterm-256color $CONTAINER_NAME /bin/bash -c "export COLUMNS=`tput cols`; export LINES=`tput lines`; exec bash"
 }
+__dent () {
+    COMPREPLY=( $(docker ps --format "{{.Names}}" -f name=$2) );
+}
 gcj () {
   # Git Commit Jira 
   git commit -m "[$(current_branch)] $1" 
@@ -50,6 +53,8 @@ gcja () {
 ggpnv () {
   git push -u origin $(git_current_branch) --no-verify
 }
+
+complete -F __dent dent;
 
 export PATH="$HOME/.npm-packages/bin:$PATH"
 export GPG_TTY=$(tty)
