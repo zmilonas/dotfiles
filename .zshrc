@@ -18,6 +18,9 @@ zstyle ':bracketed-paste-magic' active-widgets '.self-*'
 bindkey "^X\\x7f" backward-kill-line
 
 autoload -Uz promptinit
+autoload bashcompinit
+bashcompinit
+
 alias md="mkdir"
 dkill () { 
   docker kill $(docker ps -q) 
