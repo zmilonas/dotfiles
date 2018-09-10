@@ -21,7 +21,9 @@ autoload -Uz promptinit
 autoload bashcompinit
 bashcompinit
 
-alias md="mkdir"
+md () {
+  mdkir -p "$@"
+}
 dkill () { 
   docker kill $(docker ps -q) 
 }
