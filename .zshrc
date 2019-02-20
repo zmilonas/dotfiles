@@ -44,18 +44,43 @@ dent () {
 __dent () {
     COMPREPLY=( $(docker ps --format "{{.Names}}" -f name=$2) );
 }
-gcj () {
-  # Git Commit Jira 
+gcj () { 
   git commit -m "[$(current_branch)] $1" 
 }
-gcja () {
-  # Git Commit Jira All 
-  git commit -a -m "[$(current_branch)] $1" 
+gcjn () { 
+  echo "\033[1;32mCommiting wihout running git hooks\033[0m"
+  mv .git/hooks .git/hooks2 > /dev/null &2>1
+  git commit -m "[$(current_branch)] $1" 
+  mv .git/hooks2 .git/hooks > /dev/null &2>1
+}
+gcja () { 
+  git commit -am "[$(current_branch)] $1" 
+}
+gcjna () { 
+  echo "\033[1;32mCommiting wihout running git hooks\033[0m"
+  mv .git/hooks .git/hooks2 > /dev/null &2>1
+  git commit -am "[$(current_branch)] $1" 
+  mv .git/hooks2 .git/hooks > /dev/null &2>1
 }
 ggpnv () {
   git push -u origin $(git_current_branch) --no-verify
 }
-
+jv () {
+  jira view $(current_branch)
+}
+gpfnv () {
+    tput setaf 2
+    echo "git force push no-verify (e.g. after rebase)"
+    tput sgr0
+    git push -f origin $(current_branch) --no-verify
+}
+gcbj () {
+    tput setaf 2
+    INDEV=$(jira indev)
+    echo "$INDEV"
+    tput sgr0
+    gcb $(echo "$INDEV" | awk '{print substr($1, 1, length($1)-1)}')
+}
 complete -F __dent dent;
 
 export PATH="$HOME/.npm-packages/bin:$PATH"
