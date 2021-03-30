@@ -41,23 +41,24 @@ dent () {
 __dent () {
     COMPREPLY=( $(docker ps --format "{{.Names}}" -f name=$2) );
 }
-gcj () { 
-  git commit -m "[$(git_current_branch_jira_ticket_id)] $1" 
+current_ticket_name() {
+        jira indev | cut -d' ' -f5-
+}
+gcj () {
+  DEFAULT_MSG="$(current_ticket_name)"
+  MSG=${1:-$DEFAULT_MSG}
+  git commit -m "[$(git_current_branch_jira_ticket_id)] $MSG"
+}
+gcja () {
+  DEFAULT_MSG="$(current_ticket_name)"
+  MSG=${1:-$DEFAULT_MSG}
+  git commit -am "[$(git_current_branch_jira_ticket_id)] $MSG"
 }
 gcjn () { 
   echo "\033[1;32mCommiting wihout running git hooks\033[0m"
   mv .git/hooks .git/hooks2 > /dev/null 2>&1
   git commit -m "[$(git_current_branch_jira_ticket_id)] $1" 
   mv .git/hooks2 .git/hooks > /dev/null 2>&1
-}
-gcja () {
-    if [ -z $1 ]
-    then
-        MSG="$(jira indev | cut -d' ' -f5-)"
-    else
-        MSG=$1
-    fi
-  git commit -am "[$(git_current_branch_jira_ticket_id)] $MSG"
 }
 gcjna () { 
   echo "\033[1;32mCommiting wihout running git hooks\033[0m"
@@ -90,7 +91,6 @@ issue_in_progress() {
 to_code_review() {
     _ISSUE="$(issue_in_progress)"
     lab mr create -d -m
-
 }
 gcmj () {
         git commit -m "$(jira indev | awk '{$1="";  print substr($0,2)}')"
@@ -101,8 +101,6 @@ alias dompose='docker-compose'
 alias doc='docker-compose'
 
 complete -F __dent dent;
-
-eval "$(jira --completion-script-zsh)"
 
 export GOPATH="${HOME}/.go"
 export GOROOT="$(brew --prefix golang)/libexec"
@@ -120,4 +118,3 @@ export PATH="$PATH:/usr/local/sbin"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-eval "$(pyenv init -)"
