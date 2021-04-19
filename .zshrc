@@ -97,8 +97,8 @@ gcmj () {
 }
 
 alias vim='nvim'
-alias dompose='docker-compose'
-alias doc='docker-compose'
+alias dompose='docker compose'
+alias doc='docker compose'
 
 complete -F __dent dent;
 
