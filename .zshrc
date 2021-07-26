@@ -98,6 +98,15 @@ to_code_review() {
 gcmj () {
         git commit -m "$(jira indev | awk '{$1="";  print substr($0,2)}')"
 }
+touchid_sudo() {
+        enable_touchid="auth       sufficient     pam_tid.so"
+        sudo sed -i '' -e "1s/^//p; 1s/^.*/${enable_touchid}/" /etc/pam.d/sudo 2>&1 > /dev/null 
+}
+
+jsondiff () {
+        # https://stackoverflow.com/a/31933234
+        jq --argfile a "$1" --argfile b "$2" -n '($a | (.. | arrays) |= sort) as $a | ($b | (.. | arrays) |= sort) as $b | $a == $b'
+}
 
 alias vim='nvim'
 alias dompose='docker compose'
@@ -112,6 +121,7 @@ export EDITOR='nvim'
 export HOMEBREW_AUTO_UPDATE_SECS="604800"
 export BAT_PAGER="less -R"
 
+export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/usr/local/opt/php@7.2/bin:$PATH"
 export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
