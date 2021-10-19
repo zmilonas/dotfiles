@@ -109,7 +109,6 @@ jsondiff () {
 }
 
 alias vim='nvim'
-alias dompose='docker compose'
 alias doc='docker compose'
 
 complete -F __dent dent;
@@ -119,7 +118,6 @@ export GOROOT="$(brew --prefix golang)/libexec"
 export GPG_TTY=$(tty)
 export EDITOR='nvim'
 export HOMEBREW_AUTO_UPDATE_SECS="604800"
-export BAT_PAGER="less -R"
 
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -128,6 +126,10 @@ export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
 export PATH="$HOME/.jetbrains/bin:$PATH"
 export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 export PATH="$PATH:/usr/local/sbin"
+
+if type bat > /dev/null; then
+        alias cat='bat'
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
