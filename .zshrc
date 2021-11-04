@@ -110,6 +110,8 @@ jsondiff () {
 
 alias vim='nvim'
 alias doc='docker compose'
+alias ffmpeg='ffmpeg -hide_banner'
+alias ffprobe='ffprobe -hide_banner -pretty'
 
 complete -F __dent dent;
 
