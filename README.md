@@ -1,7 +1,7 @@
 # dotfiles
 
 ## Fresh setup
-```
+```sh
 # Install Homebrew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 # Clone this repo
