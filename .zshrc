@@ -8,7 +8,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
   git
-  osx
+  macos
   dotenv
   docker
   zsh-autosuggestions
