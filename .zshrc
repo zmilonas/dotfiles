@@ -50,23 +50,23 @@ current_ticket_name() {
 gcj () {
   DEFAULT_MSG="$(current_ticket_name)"
   MSG=${1:-$DEFAULT_MSG}
-  git commit -m "[$(git_current_branch_jira_ticket_id)] $MSG"
+  git commit -m "$(git_current_branch_jira_ticket_id): $MSG"
 }
 gcja () {
   DEFAULT_MSG="$(current_ticket_name)"
   MSG=${1:-$DEFAULT_MSG}
-  git commit -am "[$(git_current_branch_jira_ticket_id)] $MSG"
+  git commit -am "$(git_current_branch_jira_ticket_id): $MSG"
 }
 gcjn () { 
   echo "\033[1;32mCommiting wihout running git hooks\033[0m"
   mv .git/hooks .git/hooks2 > /dev/null 2>&1
-  git commit -m "[$(git_current_branch_jira_ticket_id)] $1" 
+  git commit -m "$(git_current_branch_jira_ticket_id): $1" 
   mv .git/hooks2 .git/hooks > /dev/null 2>&1
 }
 gcjna () { 
   echo "\033[1;32mCommiting wihout running git hooks\033[0m"
   mv .git/hooks .git/hooks2 > /dev/null 2>&1
-  git commit -am "[$(git_current_branch_jira_ticket_id)] $1" 
+  git commit -am "$(git_current_branch_jira_ticket_id): $1" 
   mv .git/hooks2 .git/hooks > /dev/null 2>&1
 }
 ggpnv () {
