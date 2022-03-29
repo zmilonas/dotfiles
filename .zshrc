@@ -123,10 +123,8 @@ export HOMEBREW_AUTO_UPDATE_SECS="604800"
 
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="/usr/local/opt/php@7.2/bin:$PATH"
-export PATH="/usr/local/opt/php@7.2/sbin:$PATH"
 export PATH="$HOME/.jetbrains/bin:$PATH"
-export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+export PATH="$PATH:${GOPATH}/bin"
 export PATH="$PATH:/usr/local/sbin"
 
 if type bat > /dev/null; then
