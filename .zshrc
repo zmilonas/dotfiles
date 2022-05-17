@@ -13,6 +13,7 @@ plugins=(
   docker
   zsh-autosuggestions
   zsh-syntax-highlighting
+  you-should-use
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -110,6 +111,7 @@ jsondiff () {
 
 alias vim='nvim'
 alias doc='docker compose'
+alias doclift='docker compose logs -f --tail=30'
 alias ffmpeg='ffmpeg -hide_banner'
 alias ffprobe='ffprobe -hide_banner -pretty'
 
