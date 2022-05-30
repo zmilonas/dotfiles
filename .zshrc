@@ -114,6 +114,7 @@ alias doc='docker compose'
 alias doclift='docker compose logs -f --tail=30'
 alias ffmpeg='ffmpeg -hide_banner'
 alias ffprobe='ffprobe -hide_banner -pretty'
+alias yt-dl-mp3='yt-dlp -x --audio-format mp3 --embed-thumbnail --embed-metadata -o "%(title)s.%(ext)s"'
 
 complete -F __dent dent;
 
