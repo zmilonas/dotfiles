@@ -2,7 +2,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export ZSH=/Users/zm/.oh-my-zsh
+[ -d /Users/zm/.oh-my-zsh ] && export ZSH=/Users/zm/.oh-my-zsh
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
@@ -16,7 +16,12 @@ plugins=(
   you-should-use
 )
 
-source $ZSH/oh-my-zsh.sh
+[[ ! -d /Users/zm/.oh-my-zsh ]] || source $ZSH/oh-my-zsh.sh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[[ ! -f "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]] || source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
 zstyle ':bracketed-paste-magic' active-widgets '.self-*'
 bindkey "^X\\x7f" backward-kill-line
@@ -134,5 +139,4 @@ if type bat > /dev/null; then
         alias cat='bat'
 fi
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
