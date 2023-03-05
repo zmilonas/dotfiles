@@ -24,6 +24,9 @@ ln "$(pwd)/.p10k.zsh" ~/.p10k.zsh
 
 # Add `zstyle :prezto:module:prompt theme powerlevel10k` to ~/.zpreztorc.
 
+# Source my .zshrc
+echo "source ~/dev/zachary/dotfiles/.zshrc" >> ~/.zshrc
+
 # Install important casks
 brew install --cask google-chrome firefox spotify iterm2 visual-studio-code signal scroll-reverser monitorcontrol jetbrains-toolbox hiddenbar
 ```
