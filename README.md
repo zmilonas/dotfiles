@@ -22,6 +22,8 @@ cd dev/zachary/dotfiles
 # Include p10k config
 ln "$(pwd)/.p10k.zsh" ~/.p10k.zsh
 
-# Install all formulaes and casks (including iTerm)
-brew bundle
+# Add `zstyle :prezto:module:prompt theme powerlevel10k` to ~/.zpreztorc.
+
+# Install important casks
+brew install --cask google-chrome firefox spotify iterm2 visual-studio-code signal scroll-reverser monitorcontrol jetbrains-toolbox hiddenbar
 ```
