@@ -18,11 +18,11 @@ for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
   ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 done
 
-cd dev/zachary/dotfiles
 # Include p10k config
-ln "$(pwd)/.p10k.zsh" ~/.p10k.zsh
+ln "~/dev/zachary/dotfiles/.p10k.zsh" ~/.p10k.zsh
 
 # Add `zstyle :prezto:module:prompt theme powerlevel10k` to ~/.zpreztorc.
+# This is MANUAL since you have to replace current theme and the zpreztorc might not be the same so not using `sed here`
 
 # Source my .zshrc
 echo "source ~/dev/zachary/dotfiles/.zshrc" >> ~/.zshrc
