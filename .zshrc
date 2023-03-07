@@ -138,6 +138,7 @@ export GOPATH="${HOME}/.go"
 export GOROOT="$(brew --prefix golang)/libexec"
 export GPG_TTY=$(tty)
 export EDITOR='nvim'
+export VISUAL='nvim'
 export HOMEBREW_AUTO_UPDATE_SECS="604800"
 
 export PATH="/opt/homebrew/bin:$PATH"
