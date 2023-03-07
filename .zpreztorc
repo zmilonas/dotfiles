@@ -1,0 +1,24 @@
+zstyle ':prezto:*:*' color 'yes'
+zstyle ':prezto:load' zmodule 'attr' 'stat'
+zstyle ':prezto:load' zfunction 'zargs' 'zmv'
+zstyle ':prezto:load' pmodule \
+  'environment' \
+  'terminal' \
+  'editor' \
+  'history' \
+  'directory' \
+  'spectrum' \
+  'utility' \
+  'completion' \
+  'history-substring-search' \
+  'autosuggestions' \
+  'git' \
+  'syntax-highlighting' \
+  'command-not-found' \
+  'prompt' \
+  'osx'
+zstyle :prezto:module:prompt theme powerlevel10k
+zstyle ':prezto:module:terminal' auto-title 'yes'
+zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
+zstyle ':prezto:module:terminal:tab-title' format '%m: %s'
+zstyle ':prezto:module:terminal:multiplexer-title' format '%s'
