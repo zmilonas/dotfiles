@@ -25,6 +25,13 @@ plugins=(
 
 zstyle ':bracketed-paste-magic' active-widgets '.self-*'
 bindkey "^X\\x7f" backward-kill-line
+zstyle ':prezto:load' pmodule \
+  'command-not-found' \
+  'autosuggestions' \
+  'git' \
+  'syntax-highlighting' \
+  'command-not-found' \
+  'osx' 
 
 autoload -Uz promptinit
 autoload bashcompinit
@@ -113,6 +120,9 @@ jsondiff () {
         # https://stackoverflow.com/a/31933234
         jq --argfile a "$1" --argfile b "$2" -n '($a | (.. | arrays) |= sort) as $a | ($b | (.. | arrays) |= sort) as $b | $a == $b'
 }
+precmd () {
+	echo -ne "\033]0;$(pwd)\007"
+}
 
 alias vim='nvim'
 alias doc='docker compose'
@@ -120,6 +130,7 @@ alias doclift='docker compose logs -f --tail=30'
 alias ffmpeg='ffmpeg -hide_banner'
 alias ffprobe='ffprobe -hide_banner -pretty'
 alias yt-dl-mp3='yt-dlp -x --audio-format mp3 --embed-thumbnail --embed-metadata -o "%(title)s.%(ext)s"'
+alias gss='git status --short'
 
 complete -F __dent dent;
 
