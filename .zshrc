@@ -143,6 +143,7 @@ alias yt-dl-mp3='yt-dlp -x --audio-format mp3 --embed-thumbnail --embed-metadata
 alias gss='git status --short'
 alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
 alias glog='git log --oneline --decorate --graph'
+alias ggp='git push origin $(git_current_branch)'
 
 complete -F __dent dent;
 
