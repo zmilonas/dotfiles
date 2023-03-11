@@ -37,6 +37,16 @@ autoload -Uz promptinit
 autoload bashcompinit
 bashcompinit
 
+git_current_branch() {
+  local ref
+  ref=$(git symbolic-ref --quiet HEAD 2> /dev/null)
+  local ret=$?
+  if [[ $ret != 0 ]]; then
+    [[ $ret == 128 ]] && return  # no git repo.
+    ref=$(git rev-parse --short HEAD 2> /dev/null) || return
+  fi
+  echo ${ref#refs/heads/}
+}
 redirects_curl () {
         curl -sIL $1 | grep --color=never -iE '^loc|^HTTP|^\s'
 }
@@ -131,6 +141,8 @@ alias ffmpeg='ffmpeg -hide_banner'
 alias ffprobe='ffprobe -hide_banner -pretty'
 alias yt-dl-mp3='yt-dlp -x --audio-format mp3 --embed-thumbnail --embed-metadata -o "%(title)s.%(ext)s"'
 alias gss='git status --short'
+alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
+alias glog='git log --oneline --decorate --graph'
 
 complete -F __dent dent;
 
