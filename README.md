@@ -1,4 +1,5 @@
-# dotfiles
+# Zachary's dotfiles
+![image](https://user-images.githubusercontent.com/25948390/225903151-6b453c3a-f8f3-4938-b251-ea0ce8148058.png)
 
 ## Fresh setup
 ```sh
