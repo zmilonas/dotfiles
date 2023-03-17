@@ -2,12 +2,16 @@
 
 ## Fresh setup
 ```sh
+export DOTFILES_PARENT="$HOME/dev/zachary"
+export DOTFILES_DIR="$DOTFILES_PARENT/dotfiles"
+cd $HOME
+
 # Install Homebrew - https://brew.sh/
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Clone this repo (example)
-mkdir -p ~/dev/zachary
-git clone git@github.com:zmilonas/dotfiles.git dev/zachary/dotfiles
+mkdir -p $DOTFILES_PARENT
+git clone git@github.com:zmilonas/dotfiles.git $DOTFILES_DIR
 
 # Install Prezto - https://github.com/sorin-ionescu/prezto#manual
 git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
@@ -19,14 +23,14 @@ for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
 done
 
 # Include p10k config
-ln "~/dev/zachary/dotfiles/.p10k.zsh" ~/.p10k.zsh
+ln "$DOTFILES_DIR/.p10k.zsh" ~/.p10k.zsh
 
 # Add/Overwrite .zpreztorc
-cp -f ~/dev/zachary/dotfiles/.zpreztorc ~/
+cp -f $DOTFILES_DIR/.zpreztorc ~/
 
 # Source my .zshrc
-echo "source ~/dev/zachary/dotfiles/.zshrc" >> ~/.zshrc
+echo "source $DOTFILES_DIR/.zshrc" >> ~/.zshrc
 
 # Install important casks
-brew install --cask google-chrome firefox spotify iterm2 visual-studio-code signal scroll-reverser monitorcontrol jetbrains-toolbox hiddenbar
+brew bundle --file="$DOTFILES_DIR"
 ```
