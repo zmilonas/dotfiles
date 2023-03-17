@@ -21,8 +21,8 @@ done
 # Include p10k config
 ln "~/dev/zachary/dotfiles/.p10k.zsh" ~/.p10k.zsh
 
-# Add `zstyle :prezto:module:prompt theme powerlevel10k` to ~/.zpreztorc.
-mv -f ~/dev/zachary/dotfiles/.zpreztorc ~/
+# Add/Overwrite .zpreztorc
+cp -f ~/dev/zachary/dotfiles/.zpreztorc ~/
 
 # Source my .zshrc
 echo "source ~/dev/zachary/dotfiles/.zshrc" >> ~/.zshrc
