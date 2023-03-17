@@ -84,7 +84,7 @@ gcbj () {
     INDEV=$(jira indev)
     echo "$INDEV"
     tput sgr0
-    gcb $(echo "$INDEV" | awk '{print substr($1, 1, length($1)-1)}')
+    git checkout -b $(echo "$INDEV" | awk '{print substr($1, 1, length($1)-1)}')
 }
 issue_in_progress() {
     jira indev | awk '{print substr($1, 1, length($1)-1)}'
