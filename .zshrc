@@ -2,37 +2,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-[ -d /Users/zm/.oh-my-zsh ] && export ZSH=/Users/zm/.oh-my-zsh
-
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
-plugins=(
-  git
-  macos
-  dotenv
-  docker
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-  you-should-use
-)
-
-[[ ! -d /Users/zm/.oh-my-zsh ]] || source $ZSH/oh-my-zsh.sh
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 [[ ! -f "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]] || source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 
 zstyle ':bracketed-paste-magic' active-widgets '.self-*'
 bindkey "^X\\x7f" backward-kill-line
-zstyle ':prezto:load' pmodule \
-  'command-not-found' \
-  'autosuggestions' \
-  'git' \
-  'syntax-highlighting' \
-  'command-not-found' \
-  'osx' 
-
 autoload -Uz promptinit
 autoload bashcompinit
 bashcompinit
@@ -96,13 +71,13 @@ ggpnv () {
   git push -u origin $(git_current_branch) --no-verify
 }
 jv () {
-  jira view $(current_branch)
+  jira view $(git_current_branch_jira_ticket_id)
 }
 gpfnv () {
     tput setaf 2
     echo "git force push no-verify (e.g. after rebase)"
     tput sgr0
-    git push -f origin $(current_branch) --no-verify
+    git push -f origin $(git_current_branch) --no-verify
 }
 gcbj () {
     tput setaf 2
