@@ -79,15 +79,16 @@ gpfnv () {
     tput sgr0
     git push -f origin $(git_current_branch) --no-verify
 }
-gcbj () {
-    tput setaf 2
-    INDEV=$(jira indev)
-    echo "$INDEV"
-    tput sgr0
-    git checkout -b $(echo "$INDEV" | awk '{print substr($1, 1, length($1)-1)}')
-}
 issue_in_progress() {
     jira indev | awk '{print substr($1, 1, length($1)-1)}'
+}
+gcbj () {
+    tput setaf 2 # Green color
+    INDEV=$(jira indev)
+    echo "$INDEV"
+    tput sgr0 # Reset to white
+    ISSUE_IN_PROGRESS="$(echo "$INDEV" | awk '{print substr($1, 1, length($1)-1)}')"
+    git checkout -b feat/$ISSUE_IN_PROGRESS
 }
 to_code_review() {
     _ISSUE="$(issue_in_progress)"
