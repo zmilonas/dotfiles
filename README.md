@@ -22,7 +22,7 @@ done
 ln "~/dev/zachary/dotfiles/.p10k.zsh" ~/.p10k.zsh
 
 # Add `zstyle :prezto:module:prompt theme powerlevel10k` to ~/.zpreztorc.
-# This is MANUAL since you have to replace current theme and the zpreztorc might not be the same so not using `sed here`
+mv -f ~/dev/zachary/dotfiles/.zpreztorc ~/
 
 # Source my .zshrc
 echo "source ~/dev/zachary/dotfiles/.zshrc" >> ~/.zshrc
