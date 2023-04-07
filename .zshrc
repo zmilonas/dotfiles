@@ -43,7 +43,10 @@ __dent () {
     COMPREPLY=( $(docker ps --format "{{.Names}}" -f name=$2) );
 }
 current_ticket_name() {
-        jira indev | cut -d' ' -f5-
+	if [ -n "$ZACHARY_DISABLE_JIRA_CLI" ]; then
+	    return
+	fi
+	jira indev | cut -d' ' -f5-
 }
 gcj () {
   DEFAULT_MSG="$(current_ticket_name)"
@@ -80,6 +83,9 @@ gpfnv () {
     git push -f origin $(git_current_branch) --no-verify
 }
 issue_in_progress() {
+	if [ -n "$ZACHARY_DISABLE_JIRA_CLI" ]; then
+	    return
+	fi
     jira indev | awk '{print substr($1, 1, length($1)-1)}'
 }
 gcbj () {
@@ -88,7 +94,7 @@ gcbj () {
     echo "$INDEV"
     tput sgr0 # Reset to white
     ISSUE_IN_PROGRESS="$(echo "$INDEV" | awk '{print substr($1, 1, length($1)-1)}')"
-    git checkout -b feat/$ISSUE_IN_PROGRESS
+    git checkout -b $ISSUE_IN_PROGRESS
 }
 to_code_review() {
     _ISSUE="$(issue_in_progress)"
