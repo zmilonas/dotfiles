@@ -126,11 +126,14 @@ alias gss='git status --short'
 alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
 alias glog='git log --oneline --decorate --graph'
 alias ggp='git push origin $(git_current_branch) && ggsup'
+alias pip='python3 -m pip'
 
 complete -F __dent dent;
 
 export GOPATH="${HOME}/.go"
 export GOROOT="$(brew --prefix golang)/libexec"
+export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
+export CPATH="$CPATH:$(brew --prefix)/include"
 export GPG_TTY=$(tty)
 export EDITOR='nvim'
 export VISUAL='nvim'
