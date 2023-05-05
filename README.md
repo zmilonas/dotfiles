@@ -1,6 +1,16 @@
 # Zachary's dotfiles
 ![image](https://user-images.githubusercontent.com/25948390/225903151-6b453c3a-f8f3-4938-b251-ea0ce8148058.png)
 
+|      Category   |              |
+|-----------------|---------------|
+| OS              | macOS         |
+| Shell           | zsh           |
+| Package Manager | [Homebrew](https://brew.sh/)      |
+| zsh framework   | [Prezto](https://github.com/sorin-ionescu/prezto)        |
+| Emulator        | [iTerm2](https://iterm2.com/)     |
+| Theme           | [Powerlevel10k](https://github.com/romkatv/powerlevel10k) |
+| IDE             | [JetBrains](https://www.jetbrains.com/products/#lang=js&lang=go&lang=python&lang=sql)     |
+
 ## Fresh setup
 ```sh
 export DOTFILES_PARENT="$HOME/dev/zachary"
