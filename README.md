@@ -12,6 +12,9 @@
 | IDE             | [JetBrains](https://www.jetbrains.com/products/#lang=js&lang=go&lang=python&lang=sql)     |
 
 ## Fresh setup
+
+**Warning: this overwrites some important shell configuration files, proceed with caution** 
+
 ```sh
 export DOTFILES_PARENT="$HOME/dev/zachary"
 export DOTFILES_DIR="$DOTFILES_PARENT/dotfiles"
