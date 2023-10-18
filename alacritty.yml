@@ -11,3 +11,6 @@ cursor:
   style:
     shape: Block
 live_config_reload: true
+key_bindings:
+  - { key: Left, mods: Option, chars: "\x1bb" }
+  - { key: Right, mods: Option, chars: "\x1bf" }
