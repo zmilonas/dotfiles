@@ -36,11 +36,14 @@ for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
   ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
 done
 
-# Include p10k config
-ln "$DOTFILES_DIR/.p10k.zsh" ~/.p10k.zsh
 
-# Add/Overwrite .zpreztorc
-cp -f $DOTFILES_DIR/.zpreztorc ~/
+# Symlink config files - term, git, p10k, nvim etc.
+mkdir -p ~/.config
+mv ~/.zpreztorc ~/.zpreztorc.bak
+ln -s "$DOTFILES_DIR/.p10k.zsh" ~/.p10k.zsh
+ln -s "$DOTFILES_DIR/.gitconfig" ~/.gitconfig
+ln -s "$DOTFILES_DIR/.zpreztorc" ~/.zpreztorc
+ln -s "$DOTFILES_DIR/alacritty/alacritty.yml" ~/.config/alacritty/alacritty.yml
 
 # Source my .zshrc
 echo "source $DOTFILES_DIR/.zshrc" >> ~/.zshrc
