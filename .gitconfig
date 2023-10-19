@@ -1,0 +1,8 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Zachary Milonas
+	email = 25948390+zmilonas@users.noreply.github.com
+[pull]
+	rebase = true
+[rebase]
+	autoStash = true

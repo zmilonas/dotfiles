@@ -7,9 +7,11 @@
 | Shell           | zsh           |
 | Package Manager | [Homebrew](https://brew.sh/)      |
 | zsh framework   | [Prezto](https://github.com/sorin-ionescu/prezto)        |
-| Emulator        | [iTerm2](https://iterm2.com/)     |
+| Emulator        | Alacritty     |
 | Theme           | [Powerlevel10k](https://github.com/romkatv/powerlevel10k) |
 | IDE             | [JetBrains](https://www.jetbrains.com/products/#lang=js&lang=go&lang=python&lang=sql)     |
+| Editor          | NeoVim        | 
+
 
 ## Fresh setup
 
@@ -51,3 +53,11 @@ echo "source $DOTFILES_DIR/.zshrc" >> ~/.zshrc
 # Install important casks
 brew bundle --file="$DOTFILES_DIR"
 ```
+
+## Troubleshooting
+
+See where git configs come from:
+```
+git config --list --show-origin
+```
+
