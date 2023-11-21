@@ -49,6 +49,7 @@ mv ~/.zpreztorc ~/.zpreztorc.bak
 ln -s "$DOTFILES_DIR/.p10k.zsh" ~/.p10k.zsh
 ln -s "$DOTFILES_DIR/.gitconfig" ~/.gitconfig
 ln -s "$DOTFILES_DIR/.zpreztorc" ~/.zpreztorc
+ln -s "$DOTFILES_DIR/.vimrc" ~/.vimrc
 ln -s "$DOTFILES_DIR/alacritty.yml" ~/.config/alacritty/alacritty.yml
 ln -s "$DOTFILES_DIR/bat.conf" ~/.config/bat/config
 ln -s "$DOTFILES_DIR/tmux.conf" ~/.config/tmux/tmux.conf
