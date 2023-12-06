@@ -1,4 +1,4 @@
-env:
+env: 
   TERM: alacritty
 window:
   title: Alacritty
@@ -7,6 +7,8 @@ font:
   normal:
     family: MesloLGL Nerd Font
   size: 14.0
+hints: 
+  - hyperlinks: true
 cursor:
   style:
     shape: Block
