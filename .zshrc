@@ -4,7 +4,15 @@ fi
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+[[ ! -f ./z.sh ]] || source ./z.sh
 [[ ! -f "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]] || source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+[[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
+[[ ! -f ~/.cargo/env ]] || source ~/.cargo/env
+
+if type brew &>/dev/null
+then
+	FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
 
 zstyle ':bracketed-paste-magic' active-widgets '.self-*'
 bindkey "^X\\x7f" backward-kill-line
@@ -127,6 +135,10 @@ alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
 alias glog='git log --oneline --decorate --graph'
 alias ggp='git push origin $(git_current_branch) && ggsup'
 alias pip='python3 -m pip'
+alias k='kubectl'
+if [[ $(command -v eza) ]]; then
+    alias ls='eza'
+fi
 
 complete -F __dent dent;
 
