@@ -1,0 +1,28 @@
+live_config_reload = true
+
+[cursor.style]
+shape = "Block"
+
+[env]
+TERM = "alacritty"
+
+[font]
+size = 14.0
+
+[font.normal]
+family = "MesloLGS NF"
+
+[[keyboard.bindings]]
+chars = "\u001Bb"
+key = "Left"
+mods = "Option"
+
+[[keyboard.bindings]]
+chars = "\u001Bf"
+key = "Right"
+mods = "Option"
+
+[window]
+dynamic_title = true
+title = ""
+decorations = "Transparent"
