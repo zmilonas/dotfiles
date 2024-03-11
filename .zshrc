@@ -39,8 +39,8 @@ sslcheck () {
 git_current_branch_jira_ticket_id() {
          git_current_branch | grep --color=never -oE '[A-Z]{2,}-\d+' || echo "NOTICKET"
 }
-dps () { 
-  docker ps -a --format="table {{.Names}}\t{{.ID}}\t{{.Status}}\t{{.RunningFor}}\t{{.Image}}" 
+dps () {
+  docker ps -a --format="table {{.Names}}\t{{.ID}}\t{{.Status}}\t{{.RunningFor}}\t{{.Image}}"
 }
 dent () {
     local CONTAINER_NAME=$1
@@ -66,16 +66,16 @@ gcja () {
   MSG=${1:-$DEFAULT_MSG}
   git commit -am "$(git_current_branch_jira_ticket_id): $MSG"
 }
-gcjn () { 
+gcjn () {
   echo "\033[1;32mCommiting wihout running git hooks\033[0m"
   mv .git/hooks .git/hooks2 > /dev/null 2>&1
-  git commit -m "$(git_current_branch_jira_ticket_id): $1" 
+  git commit -m "$(git_current_branch_jira_ticket_id): $1"
   mv .git/hooks2 .git/hooks > /dev/null 2>&1
 }
-gcjna () { 
+gcjna () {
   echo "\033[1;32mCommiting wihout running git hooks\033[0m"
   mv .git/hooks .git/hooks2 > /dev/null 2>&1
-  git commit -am "$(git_current_branch_jira_ticket_id): $1" 
+  git commit -am "$(git_current_branch_jira_ticket_id): $1"
   mv .git/hooks2 .git/hooks > /dev/null 2>&1
 }
 ggpnv () {
@@ -113,7 +113,7 @@ gcmj () {
 }
 touchid_sudo() {
         enable_touchid="auth       sufficient     pam_tid.so"
-        sudo sed -i '' -e "1s/^//p; 1s/^.*/${enable_touchid}/" /etc/pam.d/sudo 2>&1 > /dev/null 
+        sudo sed -i '' -e "1s/^//p; 1s/^.*/${enable_touchid}/" /etc/pam.d/sudo 2>&1 > /dev/null
 }
 
 jsondiff () {
@@ -161,4 +161,6 @@ if type bat > /dev/null; then
         alias cat='bat'
 fi
 
-
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  tmux new-session -A -s default
+fi
