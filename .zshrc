@@ -4,7 +4,7 @@ fi
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-[[ ! -f ./z.sh ]] || source ./z.sh
+[[ ! -f "${DOTFILES_DIR}/z.sh" ]] || source "${DOTFILES_DIR}/z.sh"
 [[ ! -f "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]] || source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 [[ ! -f ~/.fzf.zsh ]] || source ~/.fzf.zsh
 [[ ! -f ~/.cargo/env ]] || source ~/.cargo/env
