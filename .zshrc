@@ -1,3 +1,7 @@
+if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+  exec tmux new-session -A -s z
+fi
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -151,7 +155,6 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 export HOMEBREW_AUTO_UPDATE_SECS="604800"
 
-export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.jetbrains/bin:$PATH"
 export PATH="$PATH:${GOPATH}/bin"
@@ -161,6 +164,3 @@ if type bat > /dev/null; then
         alias cat='bat'
 fi
 
-if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  tmux new-session -A -s default
-fi
