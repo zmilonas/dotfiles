@@ -155,7 +155,6 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 export HOMEBREW_AUTO_UPDATE_SECS="604800"
 
-export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.jetbrains/bin:$PATH"
 export PATH="$PATH:${GOPATH}/bin"
 export PATH="$PATH:/usr/local/sbin"
