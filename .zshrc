@@ -21,23 +21,16 @@ autoload bashcompinit
 bashcompinit
 
 git_current_branch() {
-  local ref
-  ref=$(git symbolic-ref --quiet HEAD 2> /dev/null)
-  local ret=$?
-  if [[ $ret != 0 ]]; then
-    [[ $ret == 128 ]] && return  # no git repo.
-    ref=$(git rev-parse --short HEAD 2> /dev/null) || return
-  fi
-  echo ${ref#refs/heads/}
+  git branch --show-current
 }
 redirects_curl () {
-        curl -sIL $1 | grep --color=never -iE '^loc|^HTTP|^\s'
+  curl -sIL $1 | grep --color=never -iE '^loc|^HTTP|^\s'
 }
 sslcheck () {
   echo | openssl s_client -connect "${1}:443" -servername $1 2>/dev/null | openssl x509 -noout -dates
 }
 git_current_branch_jira_ticket_id() {
-         git_current_branch | grep --color=never -oE '[A-Z]{2,}-\d+' || echo "NOTICKET"
+  git_current_branch | grep --color=never -oE '[A-Z]{2,}-\d+' || echo "NOTICKET"
 }
 dps () {
   docker ps -a --format="table {{.Names}}\t{{.ID}}\t{{.Status}}\t{{.RunningFor}}\t{{.Image}}"
