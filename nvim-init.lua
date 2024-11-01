@@ -10,6 +10,8 @@ if not vim.loop.fs_stat(lazypath) then
   }
 end
 vim.opt.rtp:prepend(lazypath)
+vim.opt.directory = vim.fn.expand("$HOME/.local/share/nvim/swap")
+
 
 -- Example using a list of specs with the default options
 vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct
@@ -291,6 +293,30 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
 
+require("mason-lspconfig").setup_handlers {
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function (server_name) -- default handler (optional)
+        require("lspconfig")[server_name].setup {}
+    end,
+}
+
+
+
+require('lspconfig').groovyls.setup {
+  filetypes = { "groovy", "jenkinsfile" },
+  root_dir = require('lspconfig').util.root_pattern(".git", "*.gradle", "Jenkinsfile"),
+}
+
+-- Ensure Jenkinsfiles are recognized as Groovy files
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "Jenkinsfile", "*.Jenkinsfile", "*.jenkinsfile" },
+  callback = function()
+    vim.bo.filetype = "groovy"
+  end,
+})
+
 -- TELESCOPE Config
 require('telescope').setup {
   defaults = {
@@ -302,6 +328,11 @@ require('telescope').setup {
     },
   },
 }
+
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
