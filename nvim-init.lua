@@ -165,25 +165,50 @@ require("lazy").setup({
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
-      config = function()
-        local cmp = require("cmp")
-        cmp.setup({
-          completion = {
-            completeopt = "menu,menuone,noinsert",
-          },
-          window = {
-            completion = cmp.config.window.bordered(),
-            documentation = cmp.config.window.bordered(),
-          },
-          sources = cmp.config.sources({
-            { name = "nvim_lsp" },
-            { name = "luasnip" },
-            { name = "path" },
-            { name = "buffer" },
-          }),
-        })
-      end,
     },
+    config = function()
+      local cmp = require("cmp")
+      cmp.setup({
+        completion = {
+          completeopt = "menu,menuone,noinsert",
+        },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<Down>"] = cmp.mapping.select_next_item(),
+          ["<Up>"] = cmp.mapping.select_prev_item(),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<Tab>"] = cmp.mapping.confirm({ select = true }),
+        }),
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "path" },
+          { name = "buffer" },
+        }),
+      })
+    end,
+  },
+
+  {
+    "github/copilot.vim",
+    config = function()
+      vim.g.copilot_no_tab_map = true
+      vim.keymap.set("i", "<C-l>", 'copilot#Accept("<CR>")', {
+        expr = true,
+        replace_keycodes = false,
+      })
+
+      -- Optional: disable copilot for certain filetypes
+      vim.g.copilot_filetypes = {
+        ["*"] = true,
+        ["markdown"] = true,
+        ["help"] = false,
+      }
+    end,
   },
 
   {
@@ -363,7 +388,7 @@ vim.o.completeopt = "menuone,noselect"
 
 vim.o.termguicolors = true
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 require("mason-lspconfig").setup_handlers({
   -- auto setup of lsp servers
   function(server_name)
