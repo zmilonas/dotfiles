@@ -58,6 +58,105 @@ require("lazy").setup({
   { "folke/neoconf.nvim", cmd = "Neoconf" },
 
   {
+    "ahmedkhalf/project.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "rmagatti/auto-session",
+    },
+    config = function()
+      require("project_nvim").setup({
+        detection_methods = { "pattern", "lsp" },
+        -- Patterns used to detect project root
+        patterns = {
+          ".git", -- Git repository
+          "composer.json", -- PHP/Laravel projects
+          "package.json", -- Node.js projects
+          "Makefile", -- Make projects
+          "requirements.txt", -- Python projects
+          "pyproject.toml", -- Python projects
+          "setup.py", -- Python projects
+        },
+        show_hidden = false,
+        ignore_lsp = {},
+        exclude_dirs = { "~/.cargo/*", "node_modules/*" },
+        manual_mode = false,
+      })
+      local function switch_project()
+        local telescope = require("telescope")
+        local actions = require("telescope.actions")
+        local action_state = require("telescope.actions.state")
+
+        telescope.extensions.projects.projects({
+          attach_mappings = function(prompt_bufnr, map)
+            actions.select_default:replace(function()
+              local selection = action_state.get_selected_entry()
+              if selection and selection.value then
+                actions.close(prompt_bufnr)
+                vim.cmd("SessionSave")
+                vim.cmd("cd " .. vim.fn.fnameescape(selection.value))
+                vim.cmd("bufdo bwipeout")
+                vim.cmd("SessionRestore")
+                vim.notify("Switched to project: " .. selection.value, vim.log.levels.INFO)
+              else
+                vim.notify("Invalid project selection", vim.log.levels.ERROR)
+              end
+            end)
+            return true
+          end,
+        })
+      end
+
+      require("telescope").load_extension("projects")
+      vim.keymap.set("n", "<leader>P", switch_project, { desc = "Switch Project" })
+    end,
+  },
+
+  { "nvim-tree/nvim-web-devicons" },
+
+  {
+    "akinsho/bufferline.nvim",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    version = "*",
+    config = function()
+      require("bufferline").setup({
+        options = {
+          separator_style = "slant",
+          numbers = "ordinal",
+          show_buffer_close_icons = true,
+          show_close_icon = true,
+          always_show_bufferline = true,
+          diagnostics = "nvim_lsp",
+        },
+      })
+      vim.keymap.set("n", "<leader>x", ":bdelete<CR>", { desc = "Close buffer" })
+    end,
+  },
+
+  {
+    "rmagatti/auto-session",
+    config = function()
+      require("auto-session").setup({
+        log_level = "error",
+        auto_session_enabled = true,
+        auto_save_enabled = true,
+        auto_restore_enabled = true,
+        auto_session_root_dir = vim.fn.stdpath("data") .. "/sessions/",
+        auto_session_suppress_dirs = { "~/", "~/Downloads", "/", "~/dev" },
+        pre_save_cmds = {
+          function()
+            require("neo-tree.command").execute({ action = "close" })
+          end,
+        },
+        post_restore_cmds = {
+          function()
+            require("neo-tree.command").execute({ action = "show" })
+          end,
+        },
+      })
+    end,
+  },
+
+  {
     -- Add indentation guides even on blank lines
     "lukas-reineke/indent-blankline.nvim",
     -- Enable `lukas-reineke/indent-blankline.nvim`
@@ -124,7 +223,7 @@ require("lazy").setup({
     cmd = { "ConformInfo" },
     keys = {
       {
-        "<leader>p",
+        "<leader>l",
         function()
           require("conform").format({ async = false, lsp_fallback = true })
         end,
@@ -223,7 +322,7 @@ require("lazy").setup({
 
     keys = {
       {
-        "<leader>E",
+        "<leader>e",
         function()
           require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
         end,
@@ -261,6 +360,12 @@ require("lazy").setup({
       close_if_last_window = false,
       popup_border_style = "rounded",
       enable_git_status = true,
+      sync_root_with_cwd = true,
+      respect_buf_cwd = true,
+      update_focused_file = {
+        enable = true,
+        update_root = true,
+      },
       sources = { "filesystem", "buffers", "git_status", "document_symbols" },
       open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
       event_handlers = {
@@ -460,12 +565,11 @@ require("telescope").setup({
 
 -- ZACHARY KEYMAPS!!!
 
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set("n", "<leader>a", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
 local telescope = require("telescope.builtin")
-vim.keymap.set("n", "<leader>ff", telescope.find_files, { desc = "Telescope find files" })
-vim.keymap.set("n", "<leader>fg", telescope.live_grep, { desc = "Telescope live grep" })
+vim.keymap.set("n", "<leader>o", telescope.find_files, { desc = "Telescope find files" })
+vim.keymap.set("n", "<leader>f", telescope.live_grep, { desc = "Telescope live grep" })
 vim.keymap.set("n", "<leader>?", telescope.oldfiles, { desc = "[?] Find recently opened files" })
 vim.keymap.set("n", "<leader><space>", telescope.buffers, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>/", function()
@@ -484,8 +588,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "Go to definition" })
     vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = ev.buf, desc = "Hover documentation" })
     vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = ev.buf, desc = "Go to implementation" })
-    vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename symbol" })
-    vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code action" })
+    vim.keymap.set("n", "<leader>R", vim.lsp.buf.rename, { buffer = ev.buf, desc = "Rename symbol" })
+    vim.keymap.set({ "n", "v" }, "<space>C", vim.lsp.buf.code_action, { buffer = ev.buf, desc = "Code action" })
     vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "Go to references" })
   end,
+})
+
+vim.api.nvim_create_autocmd("QuitPre", {
+  callback = function()
+    require("neo-tree.command").execute({ action = "close" })
+  end
 })
