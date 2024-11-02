@@ -1,3 +1,11 @@
+-- NeoVim Config for Zachary, uses lazy.nvim, inspired by kickstart, crafted by hand
+-- @zmilonas
+-- keywords: lsp, telescope, neotree, lazy, nvim
+-- support for: TypeScript, Lua, Python, Groovy, Jenkinsfile, PHP, Dockerfile
+
+--@type table
+vim = vim
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -19,6 +27,18 @@ require("lazy").setup({
   -- git related
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
+
+  {
+    "lewis6991/gitsigns.nvim",
+    config = function()
+      require("gitsigns").setup({
+        current_line_blame = true,
+        current_line_blame_opts = {
+          delay = 200,
+        },
+      })
+    end,
+  },
 
   -- Detect tabstop and shiftwidth automatically
   "tpope/vim-sleuth",
@@ -46,8 +66,7 @@ require("lazy").setup({
     lazy = false,
     config = function()
       require("onedark").setup({
-        -- Set a style preset. 'dark' is default.
-        style = "dark", -- dark, darker, cool, deep, warm, warmer, light
+        style = "dark",
       })
       require("onedark").load()
     end,
@@ -58,10 +77,37 @@ require("lazy").setup({
   { "folke/neoconf.nvim", cmd = "Neoconf" },
 
   {
+    "rcarriga/nvim-notify",
+    config = function()
+      require("notify").setup({
+        stages = "fade",
+        timeout = 5000,
+        render = "default",
+        max_width = 80,
+        top_down = false,
+      })
+
+      vim.notify = require("notify")
+    end,
+    keys = {
+      -- Optional: Clear notifications with Esc in normal mode
+      {
+        "<Esc>",
+        function()
+          require("notify").dismiss()
+        end,
+        mode = "n",
+      },
+    },
+  },
+
+  {
     "ahmedkhalf/project.nvim",
     dependencies = {
       "nvim-telescope/telescope.nvim",
       "rmagatti/auto-session",
+      "rcarriga/nvim-notify",
+      "nvim-neo-tree/neo-tree.nvim",
     },
     config = function()
       require("project_nvim").setup({
@@ -81,37 +127,53 @@ require("lazy").setup({
         exclude_dirs = { "~/.cargo/*", "node_modules/*" },
         manual_mode = false,
       })
-      local function switch_project()
-        local telescope = require("telescope")
+
+      require("telescope").load_extension("projects")
+
+      vim.keymap.set("n", "<leader>P", function()
         local actions = require("telescope.actions")
         local action_state = require("telescope.actions.state")
 
-        telescope.extensions.projects.projects({
+        require("telescope").extensions.projects.projects({
           attach_mappings = function(prompt_bufnr, map)
-            actions.select_default:replace(function()
+            map("i", "<CR>", function()
               local selection = action_state.get_selected_entry()
+              actions.close(prompt_bufnr)
+
               if selection and selection.value then
-                actions.close(prompt_bufnr)
                 vim.cmd("SessionSave")
+                vim.notify("Switching to " .. selection.value, vim.log.levels.INFO)
                 vim.cmd("cd " .. vim.fn.fnameescape(selection.value))
-                vim.cmd("bufdo bwipeout")
+                vim.cmd("silent! %bdelete")
                 vim.cmd("SessionRestore")
-                vim.notify("Switched to project: " .. selection.value, vim.log.levels.INFO)
-              else
-                vim.notify("Invalid project selection", vim.log.levels.ERROR)
+                vim.defer_fn(function()
+                  require("neo-tree.command").execute({ action = "show", dir = vim.loop.cwd() })
+                end, 200)
               end
             end)
             return true
           end,
         })
-      end
-
-      require("telescope").load_extension("projects")
-      vim.keymap.set("n", "<leader>P", switch_project, { desc = "Switch Project" })
+      end, { desc = "Switch Project" })
     end,
   },
 
-  { "nvim-tree/nvim-web-devicons" },
+  {
+    "nvim-tree/nvim-web-devicons",
+    lazy = false,
+    config = function()
+      require("nvim-web-devicons").setup({
+        override = {
+          default_icon = {
+            icon = "",
+            color = "#6d8086",
+            name = "Default",
+          },
+        },
+        strict = true,
+      })
+    end,
+  },
 
   {
     "akinsho/bufferline.nvim",
@@ -149,7 +211,7 @@ require("lazy").setup({
         },
         post_restore_cmds = {
           function()
-            require("neo-tree.command").execute({ action = "show" })
+            require("neo-tree.command").execute({ action = "show", dir = vim.loop.cwd() })
           end,
         },
       })
@@ -283,11 +345,20 @@ require("lazy").setup({
           ["<Tab>"] = cmp.mapping.confirm({ select = true }),
         }),
         sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
+          { name = "nvim_lsp", max_item_count = 20 },
+          { name = "luasnip", max_item_count = 5 },
+          { name = "buffer", max_item_count = 5, keyword_length = 5 },
           { name = "path" },
-          { name = "buffer" },
         }),
+        sorting = {
+          comparators = {
+            cmp.config.compare.exact,
+            cmp.config.compare.score,
+            cmp.config.compare.kind,
+            cmp.config.compare.length,
+            cmp.config.compare.order,
+          },
+        },
       })
     end,
   },
@@ -597,5 +668,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.api.nvim_create_autocmd("QuitPre", {
   callback = function()
     require("neo-tree.command").execute({ action = "close" })
-  end
+  end,
 })
