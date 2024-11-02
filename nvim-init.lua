@@ -163,13 +163,6 @@ require("lazy").setup({
     lazy = false,
     config = function()
       require("nvim-web-devicons").setup({
-        override = {
-          default_icon = {
-            icon = "",
-            color = "#6d8086",
-            name = "Default",
-          },
-        },
         strict = true,
       })
     end,
