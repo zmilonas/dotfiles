@@ -11,7 +11,7 @@ TERM = "alacritty"
 size = 14.0
 
 [font.normal]
-family = "FiraCode Nerd Font"
+family = "MesloLGS NF"
 
 [[keyboard.bindings]]
 chars = "\u001Bb"
