@@ -53,6 +53,7 @@ ln -s "$DOTFILES_DIR/.vimrc" ~/.vimrc
 ln -s "$DOTFILES_DIR/alacritty.toml" ~/.config/alacritty/alacritty.toml
 ln -s "$DOTFILES_DIR/bat.conf" ~/.config/bat/config
 ln -s "$DOTFILES_DIR/tmux.conf" ~/.config/tmux/tmux.conf
+ln -s "$DOTFILES_DIR/nvim-init.lua" ~/.config/nvim/init.lua
 
 # Source my .zshrc
 echo "source $DOTFILES_DIR/.zshrc" >> ~/.zshrc
