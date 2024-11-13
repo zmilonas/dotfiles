@@ -17,6 +17,9 @@ zstyle ':prezto:load' pmodule \
   'command-not-found' \
   'prompt' \
   'osx'
+
+# Don't add git aliases
+zstyle ':prezto:module:git:alias' skip 'yes'
 zstyle :prezto:module:prompt theme powerlevel10k
 zstyle ':prezto:module:terminal' auto-title 'yes'
 zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
