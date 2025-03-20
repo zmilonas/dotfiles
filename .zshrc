@@ -47,7 +47,7 @@ current_ticket_name() {
 	if [ -n "$ZACHARY_DISABLE_JIRA_CLI" ]; then
 	    return
 	fi
-	jira indev | cut -d' ' -f5-
+	jira issue list --no-headers --columns summary --plain --jql "assignee = currentUser() AND status = 'In Progress' AND issuetype not in (Epic, Test, Initiative)" | head -1
 }
 gcj () {
   DEFAULT_MSG="$(current_ticket_name)"
@@ -77,21 +77,20 @@ gpfnv () {
     tput setaf 2
     echo "git force push no-verify (e.g. after rebase)"
     tput sgr0
-    git push -f origin $(git_current_branch) --no-verify
+    git push --force-with-lease origin $(git_current_branch) --no-verify
 }
 issue_in_progress() {
 	if [ -n "$ZACHARY_DISABLE_JIRA_CLI" ]; then
 	    return
 	fi
-    jira indev | awk '{print substr($1, 1, length($1)-1)}'
+	jira issue list --no-headers --columns key --plain --jql "assignee = currentUser() AND status = 'In Progress' AND issuetype not in (Epic, Test, Initiative)"
 }
 gcbj () {
     tput setaf 2 # Green color
-    INDEV=$(jira indev)
-    echo "$INDEV"
+    TICKET_KEY=$(issue_in_progress)
+    echo "$TICKET_KEY"
     tput sgr0 # Reset to white
-    ISSUE_IN_PROGRESS="$(echo "$INDEV" | awk '{print substr($1, 1, length($1)-1)}')"
-    git checkout -b $ISSUE_IN_PROGRESS
+    git checkout -b $TICKET_KEY
 }
 to_code_review() {
     _ISSUE="$(issue_in_progress)"
